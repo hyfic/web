@@ -6,8 +6,6 @@ import { LOGIN_USER } from './graphql/mutation';
 import { setUser } from '@/utils/user.util';
 import { Paths } from '@/utils/paths';
 
-// TODO: redirect path according `?next` in the URL
-
 export const LoginForm = () => {
   const router = useRouter();
 
@@ -31,7 +29,9 @@ export const LoginForm = () => {
         const responseData = data?.loginUser;
         setUser(responseData);
 
-        router.push(Paths.app);
+        // redirect accordingly
+        const nextPath = router.query?.next?.toString() || Paths.app;
+        router.push(nextPath);
       })
       .catch((err) => {
         alert(err?.message);
